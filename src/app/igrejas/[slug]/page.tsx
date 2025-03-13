@@ -5,10 +5,9 @@ interface ChurchPageProps {
   params: {
     slug: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function ChurchPage({ params, searchParams }: ChurchPageProps) {
+export default async function ChurchPage({ params }: ChurchPageProps) {
   // Usando o params.slug para buscar os dados da igreja
   const church = {
     name: params.slug === 'catedral-nossa-senhora' ? 'Catedral Nossa Senhora' : 'Igreja São José',
