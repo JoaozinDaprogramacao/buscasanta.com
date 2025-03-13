@@ -4,19 +4,13 @@ import { Metadata } from 'next';
 import { churches } from '@/data/churches';
 import { Church } from '@/types/church';
 
-type Props = {
-  params: {
-    slug: string
-  }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   return {
     title: `Igreja ${params.slug.replace(/-/g, ' ')}`,
   }
 }
 
-export default async function ChurchPage({ params }: Props) {
+export default function ChurchPage({ params }: { params: { slug: string } }) {
   const church: Church = churches.find(c => c.slug === params.slug) || {
     name: 'Igreja não encontrada',
     image: '/igreja1.jpg',
