@@ -2,18 +2,21 @@ import Image from 'next/image';
 import { Clock, MapPin, Phone, Calendar } from 'lucide-react';
 import { Metadata } from 'next';
 
-type Props = {
-  params: { slug: string }
+interface PageProps {
+  params: {
+    slug: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   return {
     title: `Igreja ${params.slug.replace(/-/g, ' ')}`,
   }
 }
 
-export default function ChurchPage({ params }: Props) {
-  // Usando o params.slug para buscar os dados da igreja
+export default async function ChurchPage({ params }: PageProps) {
+  // Buscar dados da igreja usando o params.slug
   const church = {
     name: params.slug === 'catedral-nossa-senhora' ? 'Catedral Nossa Senhora' : 'Igreja São José',
     image: '/images/churches/catedral.jpg',
