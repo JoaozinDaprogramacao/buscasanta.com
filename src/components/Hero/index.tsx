@@ -1,10 +1,9 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative h-[600px] flex items-center">
-      {/* ... código do hero ... */}
-    </section>
+    <div className="hero">
+      {/* conteúdo do Hero */}
+    </div>
   );
 } 

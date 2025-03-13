@@ -8,9 +8,9 @@ interface ChurchPageProps {
 }
 
 export default function ChurchPage({ params }: ChurchPageProps) {
-  // Aqui você buscaria os dados da igreja com base no slug
+  // Usando o params.slug para buscar os dados da igreja
   const church = {
-    name: 'Catedral Nossa Senhora',
+    name: params.slug === 'catedral-nossa-senhora' ? 'Catedral Nossa Senhora' : 'Igreja São José',
     image: '/images/churches/catedral.jpg',
     address: 'Praça da Catedral, 123',
     schedule: 'Missas: Dom 8h, 10h, 18h',
