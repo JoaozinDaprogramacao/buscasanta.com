@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Clock, MapPin, Phone, Calendar } from 'lucide-react';
 import { Metadata } from 'next';
 import { churches } from '@/data/churches';
+import { Church } from '@/types/church';
 
 type Props = {
   params: {
@@ -16,14 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ChurchPage({ params }: Props) {
-  const church = churches.find(c => c.slug === params.slug) || {
+  const church: Church = churches.find(c => c.slug === params.slug) || {
     name: 'Igreja não encontrada',
     image: '/igreja1.jpg',
     address: 'Endereço não disponível',
     schedule: 'Horários não disponíveis',
     phone: 'Telefone não disponível',
     description: 'Informações não disponíveis',
-    events: []
+    events: [],
+    slug: 'not-found'
   };
 
   return (
