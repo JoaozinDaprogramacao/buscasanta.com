@@ -6,9 +6,9 @@ export interface Church {
   phone: string;
   slug: string;
   description: string;
-  events: Array<{
+  events?: {
     title: string;
     date: string;
     time: string;
-  }>;
+  }[];
 } 
