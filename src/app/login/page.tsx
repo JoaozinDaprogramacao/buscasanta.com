@@ -23,7 +23,10 @@ export default function LoginPage() {
         <div className="bg-white p-8 rounded-xl shadow-md">
           <div className="space-y-4">
             <button
-              onClick={() => signIn('google', { callbackUrl: '/' })}
+              onClick={() => signIn('google', { 
+                callbackUrl: '/',
+                prompt: 'select_account'
+              })}
               className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition"
             >
               <Image

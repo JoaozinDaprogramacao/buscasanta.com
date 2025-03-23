@@ -111,14 +111,6 @@ export default function Navbar() {
                 Confissões
               </Link>
               <Link 
-                href="/calendario" 
-                className="flex items-center gap-2 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
-                onClick={toggleMenu}
-              >
-                <BookOpen size={18} />
-                Calendário
-              </Link>
-              <Link 
                 href="/sobre" 
                 className="flex items-center gap-2 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
                 onClick={toggleMenu}
@@ -126,6 +118,34 @@ export default function Navbar() {
                 <InfoIcon size={18} />
                 Sobre
               </Link>
+              
+              {/* Adicionando opção de login/logout no menu mobile */}
+              {session ? (
+                <>
+                  <div className="px-4 py-3 text-gray-600 border-t border-gray-100">
+                    <span>Olá, {session.user?.name}</span>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      signOut();
+                      toggleMenu();
+                    }}
+                    className="flex items-center gap-2 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 text-left"
+                  >
+                    <LogOut size={18} />
+                    Sair
+                  </button>
+                </>
+              ) : (
+                <Link 
+                  href="/login" 
+                  className="flex items-center gap-2 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 border-t border-gray-100"
+                  onClick={toggleMenu}
+                >
+                  <User size={18} />
+                  Entrar
+                </Link>
+              )}
             </div>
           </div>
         )}
