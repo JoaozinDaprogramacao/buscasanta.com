@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Church, Calendar, Clock, BookOpen, InfoIcon, Menu, X, User, LogOut } from 'lucide-react';
+import { Home, Church, Calendar, Clock, BookOpen, InfoIcon, Menu, X, User, LogOut, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -47,6 +47,13 @@ export default function Navbar() {
           {session ? (
             <div className="flex items-center gap-4">
               <span className="text-gray-600">Olá, {session.user?.name}</span>
+              <Link 
+                href="/admin" 
+                className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+              >
+                <Settings size={18} />
+                Administrador
+              </Link>
               <button 
                 onClick={() => signOut()}
                 className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
@@ -125,6 +132,14 @@ export default function Navbar() {
                   <div className="px-4 py-3 text-gray-600 border-t border-gray-100">
                     <span>Olá, {session.user?.name}</span>
                   </div>
+                  <Link 
+                    href="/admin" 
+                    className="flex items-center gap-2 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                    onClick={toggleMenu}
+                  >
+                    <Settings size={18} />
+                    Administrador
+                  </Link>
                   <button 
                     onClick={() => {
                       signOut();

@@ -1,44 +1,79 @@
-import { Clock } from 'lucide-react';
+'use client';
 
-const confessionSchedules = [
-  {
-    church: 'Catedral Nossa Senhora',
-    schedules: [
-      { day: 'Segunda', time: '15:00 - 17:00' },
-      { day: 'Quarta', time: '09:00 - 11:00' },
-      { day: 'Sábado', time: '14:00 - 16:00' }
-    ]
-  },
-  {
-    church: 'Igreja São José',
-    schedules: [
-      { day: 'Terça', time: '16:00 - 18:00' },
-      { day: 'Quinta', time: '10:00 - 12:00' },
-      { day: 'Sábado', time: '15:00 - 17:00' }
-    ]
-  }
-];
+import { useEffect, useState } from 'react';
+import { Clock, MapPin } from 'lucide-react';
+
+type Confession = {
+  id: number;
+  dayOfWeek: string;
+  startTime: string;
+  endTime: string;
+  notes?: string;
+  church: {
+    name: string;
+    address: string;
+  };
+}
 
 export default function ConfissoesPage() {
-  return (
-    <main className="bg-slate-50 min-h-screen py-8">
-      <div className="container mx-auto">
-        <div className="flex items-center gap-2 mb-8">
-          <Clock className="text-blue-600" size={32} />
-          <h1 className="text-3xl font-bold text-gray-900">Horários de Confissão</h1>
+  const [confessions, setConfessions] = useState<Confession[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchConfessions() {
+      try {
+        const response = await fetch('/api/confessions');
+        const data = await response.json();
+        setConfessions(data);
+      } catch (error) {
+        console.error('Erro ao carregar confissões:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchConfessions();
+  }, []);
+
+  if (loading) {
+    return (
+  <main className="min-h-screen bg-slate-50 py-8">
+    <div className="container mx-auto px-4">
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Eventos</h1>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-[400px] bg-slate-50">
+          <div className="text-gray-600">Carregando...</div>
         </div>
-        
-        <div className="grid gap-6">
-          {confessionSchedules.map((item) => (
-            <div key={item.church} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">{item.church}</h2>
-              <div className="grid gap-2">
-                {item.schedules.map((schedule) => (
-                  <div key={schedule.day} className="flex justify-between items-center py-3 border-b border-gray-100">
-                    <span className="font-medium text-gray-900">{schedule.day}</span>
-                    <span className="text-gray-600">{schedule.time}</span>
-                  </div>
-                ))}
+      ) : (
+        <div className="space-y-6">
+          {/* Resto do código permanece igual */}
+        </div>
+      )}
+    </div>
+  </main>
+);
+  }
+
+  return (
+    <main className="min-h-screen bg-slate-50 py-8">
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Horários de Confissão</h1>
+        <div className="space-y-6">
+          {confessions.map((confession) => (
+            <div key={confession.id} className="bg-white rounded-xl shadow-md p-6">
+              <div className="space-y-3 text-gray-600">
+                <h2 className="text-xl font-semibold text-gray-900">{confession.church.name}</h2>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  <span>{confession.church.address}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  <span>{confession.dayOfWeek}: {confession.startTime} - {confession.endTime}</span>
+                </div>
+                {confession.notes && (
+                  <p className="mt-2 text-sm">{confession.notes}</p>
+                )}
               </div>
             </div>
           ))}
