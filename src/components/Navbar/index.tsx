@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Church, Calendar, Clock, BookOpen, InfoIcon, Menu, X } from 'lucide-react';
+import { Home, Church, Calendar, Clock, BookOpen, InfoIcon, Menu, X, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,6 +43,27 @@ export default function Navbar() {
             <InfoIcon size={18} />
             Sobre
           </Link>
+          
+          {session ? (
+            <div className="flex items-center gap-4">
+              <span className="text-gray-600">Olá, {session.user?.name}</span>
+              <button 
+                onClick={() => signOut()}
+                className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+              >
+                <LogOut size={18} />
+                Sair
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={() => signIn('google')}
+              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+            >
+              <User size={18} />
+              Entrar
+            </button>
+          )}
         </div>
 
         {/* Botão do Menu Mobile */}
